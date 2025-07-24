@@ -2,36 +2,75 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Verificação de Key</title>
+  <title>Scripter X Brainrot</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #222; color: #eee; text-align: center; padding: 30px; }
-    input, button { padding: 10px; margin: 10px; font-size: 16px; }
-    #message { margin-top: 20px; font-weight: bold; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #eee;
+      text-align: center;
+      padding: 50px;
+    }
+    .msg {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: lightgreen;
+    }
+    .key {
+      font-size: 24px;
+      background: #222;
+      border: 1px solid #444;
+      padding: 10px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    .erro {
+      color: red;
+      font-size: 18px;
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
-  <h1>Coloque sua Key</h1>
-  <input type="text" id="keyInput" placeholder="Digite a key aqui" />
+  <h1>✅ Acesso validado via cookie!</h1>
+  <div class="msg">Copie a key abaixo</div>
+  <h2>Scripter X Brainrot</h2>
+  <div class="key" id="keyText">KeynovaRoubeumBrainrot</div>
   <br/>
-  <button onclick="verificarKey()">Verificar Key</button>
   <button onclick="copiarKey()">Copiar Key</button>
-  <div id="message"></div>
+  <div class="erro" id="erro"></div>
 
   <script>
-    const keyValida = "KeynovaRoubeumBrainrot";
+    // LINKS PERMITIDOS:
+    const referersPermitidos = [
+      "rekonise.com",
+      "linkvertise.com",
+      "link-target.net"
+    ];
 
-    function verificarKey() {
-      const input = document.getElementById('keyInput').value;
-      const msg = document.getElementById('message');
-      if (input === keyValida) {
-        msg.style.color = 'lightgreen';
-        msg.textContent = "✅ Key válida! Acesso liberado.";
-      } else {
-        msg.style.color = 'red';
-        msg.textContent = "❌ Key inválida! Tente novamente.";
-      }
+    const referer = document.referrer;
+    const erro = document.getElementById("erro");
+    const conteudo = document.body;
+
+    const veioDeLinkPermitido = referersPermitidos.some(link => referer.includes(link));
+
+    if (!veioDeLinkPermitido) {
+      document.body.innerHTML = "<h1 style='color:red'>❌ Você não veio do site Link-Hub ou Linkvertise.</h1>";
     }
 
     function copiarKey() {
-      navigator.clipboard.writeText(keyValida)
-        .then(() => alert("Key copiada para a área de transferência!
+      const key = document.getElementById("keyText").textContent;
+      navigator.clipboard.writeText(key).then(() => {
+        alert("✅ Key copiada com sucesso!");
+      });
+    }
+  </script>
+</body>
+</html>
