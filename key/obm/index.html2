@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Key System 99 Noites</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #eee;
+      text-align: center;
+      padding: 50px;
+    }
+    .msg {
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: lightgreen;
+    }
+    .key {
+      font-size: 24px;
+      background: #222;
+      border: 1px solid #444;
+      padding: 10px;
+      border-radius: 5px;
+      display: inline-block;
+      margin-top: 10px;
+      user-select: all;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 18px;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    .erro {
+      color: red;
+      font-size: 18px;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div id="content" style="display:none;">
+    <h1>✅ Acesso validado via cookie!</h1>
+    <div class="msg">Copie a key abaixo</div>
+    <h2>99 Noites</h2>
+    <div class="key" id="keyText">X99noiteskeyX</div>
+    <br/>
+    <button onclick="copiarKey()">Copiar Key</button>
+  </div>
+
+  <div id="errorMsg" class="erro" style="display:none;">
+    ❌ Você não veio do site Link-Hub ou Linkvertise.
+  </div>
+
+  <script>
+    const referersPermitidos = [
+      "rekonise.com",
+      "linkvertise.com",
+      "link-target.net"
+    ];
+
+    const referer = document.referrer.toLowerCase();
+    const content = document.getElementById("content");
+    const errorMsg = document.getElementById("errorMsg");
+
+    const veioDeLinkPermitido = referersPermitidos.some(link => referer.includes(link));
+
+    if (veioDeLinkPermitido) {
+      content.style.display = "block";
+    } else {
+      errorMsg.style.display = "block";
+    }
+
+    function copiarKey() {
+      const key = document.getElementById("keyText").textContent;
+      navigator.clipboard.writeText(key).then(() => {
+        alert("✅ Key copiada com sucesso!");
+      });
+    }
+  </script>
+</body>
+  </html>
