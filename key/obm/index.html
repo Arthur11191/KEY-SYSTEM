@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Verificação de Key</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #222; color: #eee; text-align: center; padding: 30px; }
+    input, button { padding: 10px; margin: 10px; font-size: 16px; }
+    #message { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Coloque sua Key</h1>
+  <input type="text" id="keyInput" placeholder="Digite a key aqui" />
+  <br/>
+  <button onclick="verificarKey()">Verificar Key</button>
+  <button onclick="copiarKey()">Copiar Key</button>
+  <div id="message"></div>
+
+  <script>
+    const keyValida = "KeynovaRoubeumBrainrot";
+
+    function verificarKey() {
+      const input = document.getElementById('keyInput').value;
+      const msg = document.getElementById('message');
+      if (input === keyValida) {
+        msg.style.color = 'lightgreen';
+        msg.textContent = "✅ Key válida! Acesso liberado.";
+      } else {
+        msg.style.color = 'red';
+        msg.textContent = "❌ Key inválida! Tente novamente.";
+      }
+    }
+
+    function copiarKey() {
+      navigator.clipboard.writeText(keyValida)
+        .then(() => alert("Key copiada para a área de transferência!
