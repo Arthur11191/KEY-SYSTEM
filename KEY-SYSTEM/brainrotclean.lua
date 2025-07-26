@@ -93,16 +93,65 @@ function iniciarMenuPrincipal()
     Titulo.TextSize = 16
 
     -- Botão de Minimizar
-    local Minimizar = Instance.new("TextButton", Frame)
-    Minimizar.Size = UDim2.new(0, 25, 0, 25)
-    Minimizar.Position = UDim2.new(1, -30, 0, 5)
-    Minimizar.Text = "-"
-    Minimizar.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Minimizar.BackgroundColor3 = Color3.fromRGB(10, 10, 40)
+    -- Cria bolinha minimizar arrastável
+local btnMinimizar = Instance.new("TextButton", mainFrame)
+btnMinimizar.Size = UDim2.new(0, 40, 0, 40)
+btnMinimizar.Position = UDim2.new(1, -45, 0, 5)
+btnMinimizar.Text = "-"
+btnMinimizar.Font = Enum.Font.SourceSansBold
+btnMinimizar.TextSize = 28
+btnMinimizar.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+btnMinimizar.TextColor3 = Color3.new(1, 1, 1)
+btnMinimizar.BorderSizePixel = 0
+btnMinimizar.AutoButtonColor = true
 
-    Minimizar.MouseButton1Click:Connect(function()
-        Frame.Visible = false
-    end)
+-- Função drag para arrastar a bolinha
+local UserInputService = game:GetService("UserInputService")
+local dragging
+local dragInput
+local dragStart
+local startPos
+
+btnMinimizar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or
+       input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = btnMinimizar.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+
+btnMinimizar.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement or
+       input.UserInputType == Enum.UserInputType.Touch then
+        dragInput = input
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and input == dragInput then
+        local delta = input.Position - dragStart
+        local newPos = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+        btnMinimizar.Position = newPos
+    end
+end)
+
+-- Botão minimizar esconde o menu
+btnMinimizar.MouseButton1Click:Connect(function()
+    mainFrame.Visible = false
+    wait(0.2)
+    mainFrame.Visible = true
+end)
 
     -- Criar botões para funções (6 páginas)
     for i = 1, 6 do
